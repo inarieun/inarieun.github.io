@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Chubby Cattle</title>
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body onLoad="loadBody()">
+      <div className="App">
+        <h1>InariEun Recycle Web App</h1>
+        <div className="recyclebuttons">
+          <button id="plastic" value="0.05" onClick="handleMat(event)">Plastic</button> 
+          <button id="aluminum" value="0.1" onClick="handleMat(event)">Aluminum</button> 
+          <button id="glass" value="0.02" onClick="handleMat(event)">Glass</button> 
+        </div>
+        <div className="inputs" style="padding: 16px;">
+          <input id="lbinput" placeholder="Enter Weight (in LBs)" onKeyPress="return isNumberKey(event)" style="text-align: right;"/>
+          <label for="lbinput">LB&emsp;</label>
+          <label for="lbmult">$</label>
+          <input id="lbmult" value="0.05" placeholder="Enter Multiplier (in $)" onKeyPress="return isNumberKey(event)" style="text-align: left;"/>
+        </div>
+        <div className="submitbutton">
+          <button onClick="calculate()">Calculate Total Earnings</button> 
+        </div>
+        <div className="results" style="white-space: pre-line;">
+          <h1 id="endresult">$0</h1>
+        </div>
+    </div>
+    <script>
+      var currentButton = "plastic";
+      var pmult = 0.05;
+      var amult = 0.1;
+      var gmult = 0.02;
+
+      function handleMat(e) {
+        try {
+          let temp = parseFloat(document.getElementById("lbmult").value);
+          if (currentButton === "glass") {
+            gmult = temp;
+            document.getElementById("endresult").innerHTML = "Saved Glass to be $" + String(temp);
+          } else if (currentButton === "aluminum") {
+            amult = temp;
+            document.getElementById("endresult").innerHTML = "Saved Aluminum to be $" + String(temp);
+          } else {
+            pmult = temp;
+            document.getElementById("endresult").innerHTML = "Saved Plastic to be $" + String(temp);
+          }
+
+          if (e.target.id === "glass") {
+            currentButton = "glass";
+            document.getElementById("lbmult").value = String(gmult);
+            document.getElementById("endresult").innerHTML += "\nSelecting Glass";
+          } else if (e.target.id === "aluminum") {
+            currentButton = "aluminum";
+            document.getElementById("lbmult").value = String(amult);
+            document.getElementById("endresult").innerHTML += "\nSelecting Aluminum";
+          } else {
+            currentButton = "plastic";
+            document.getElementById("lbmult").value = String(pmult);
+            document.getElementById("endresult").innerHTML += "\nSelecting Plastic";
+          }
+        } catch (e) {
+          console.log(e);
+          document.getElementById("endresult").innerHTML = "Error: Prefix couldn't be saved, Resetting Multipliers.";
+          pmult = 0.05;
+          amult = 0.1;
+          gmult = 0.02;
+        }
+      }
+
+      function calculate() {
+        try {
+          let temp = parseFloat(document.getElementById("lbinput").value);
+          let temp2 = parseFloat(document.getElementById("lbmult").value);
+          if (!temp || !temp2) {
+            document.getElementById("endresult").innerHTML = "Error: A number is missing!";
+            return;
+          }
+          if (currentButton === "glass") {
+            document.getElementById("endresult").innerHTML = "$" + String((temp * gmult).toFixed(2));
+          } else if (currentButton === "aluminum") {
+            document.getElementById("endresult").innerHTML = "$" + String((temp * amult).toFixed(2));
+          } else {
+            document.getElementById("endresult").innerHTML = "$" + String((temp * pmult).toFixed(2));
+          }
+        } catch (e) {
+          console.log(e);
+          document.getElementById("endresult").innerHTML = "Error: A number was inputted incorrectly!";
+        }
+      }
+
+      function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+
+      function loadBody() {
+        currentButton = "plastic";
+        pmult = 0.05;
+        amult = 0.1;
+        gmult = 0.02;
+        document.getElementById("lbinput").value = "";
+        document.getElementById("lbmult").value = String(pmult);
+      }
+    </script>
+    </body>
+</html>
