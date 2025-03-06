@@ -124,9 +124,6 @@
 
         function calculate() {
           try {
-            document.getElementById("plastic").style.background = "#fbfaf2";
-            document.getElementById("aluminum").style.background = "#fbfaf2";
-            document.getElementById("glass").style.background = "#fbfaf2";
             let temp = parseFloat(document.getElementById("lbinput").value);
             let temp2 = parseFloat(document.getElementById("lbmult").value);
             if (!temp || !temp2) {
@@ -178,6 +175,9 @@
         }
 
         function everything() {
+            document.getElementById("plastic").style.background = "#fbfaf2";
+            document.getElementById("aluminum").style.background = "#fbfaf2";
+            document.getElementById("glass").style.background = "#fbfaf2";
           calculate();
           document.getElementById("endresult").innerHTML = "P($" + String((pinp * pmult).toFixed(2)) + ") + A($" + String((ainp * amult).toFixed(2))+ ") + G($" + String((ginp * gmult).toFixed(2)) + ") = $" + String(((pinp * pmult) + (ainp * amult) + (ginp * gmult)).toFixed(2));
         }
