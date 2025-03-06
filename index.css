@@ -1,0 +1,42 @@
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: #f5f0f7;
+  font-size: 32px;
+}
+
+button {
+  padding-left: 80px;
+  padding-right: 80px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  font-size: 32px;
+  background-color: #fbfaf2;
+  border-radius: 32px;
+}
+
+input {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-size: 32px;
+  border-radius: 16px;
+  width: 320px;
+}
+
+label {
+  font-size: 32px;
+}
+
+footer {
+  background-color: #fbfaf2;
+  width: 100%;
+  padding-left: 100px;
+  padding-right: 100px;
+  height: 150px;
+}

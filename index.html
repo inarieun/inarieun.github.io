@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Chubby Cattle</title>
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body onLoad="loadBody()">
+      <div className="App">
+        <h1>InariEun Recycle Web App</h1>
+        <div className="recyclebuttons">
+          <button id="plastic" value="0.05" onClick="handleMat(event)" style="background-color: #b4fa8e">Plastic ($0)</button> 
+          <button id="aluminum" value="0.1" onClick="handleMat(event)">Aluminum ($0)</button> 
+          <button id="glass" value="0.02" onClick="handleMat(event)">Glass($0)</button> 
+        </div>
+        <div className="inputs" style="padding: 16px;">
+          <input id="lbinput" value="0" placeholder="Enter Weight (in g)" onKeyPress="return isNumberKey(event)" style="text-align: right;"/>
+          <label for="lbinput">g&emsp;</label>
+          <label for="lbmult">&emsp;$</label>
+          <input id="lbmult" value="0.05" placeholder="Enter Multiplier (in $)" onKeyPress="return isNumberKey(event)" style="text-align: left;"/>
+        </div>
+        <div className="submitbutton">
+          <button onClick="calculate()">Check Partial Total</button> 
+          <button onClick="everything()">Calculate Total Earnings</button> 
+        </div>
+        <div className="results" style="white-space: pre-line;">
+          <h1 id="endresult">Calculate Your Recycling Earnings!</h1>
+        </div>
+      </div>
+      <script>
+        var currentButton = "plastic";
+        var pinp = 0;
+        var ainp = 0;
+        var ginp = 0;
+        var pmult = 0.05;
+        var amult = 0.1;
+        var gmult = 0.02;
+
+        function handleMat(e) {
+          try {
+            document.getElementById("plastic").style.background = "#fbfaf2";
+            document.getElementById("aluminum").style.background = "#fbfaf2";
+            document.getElementById("glass").style.background = "#fbfaf2";
+            let temp = parseFloat(document.getElementById("lbinput").value);
+            let temp2 = parseFloat(document.getElementById("lbmult").value);
+            if (currentButton === "glass") {
+              if (temp) {
+                ginp = temp;
+              }
+              if (temp2) {
+                gmult = temp2;
+              }
+            } else if (currentButton === "aluminum") {
+              if (temp) {
+                ainp = temp;
+              }
+              if (temp2) {
+                amult = temp2;
+              }
+            } else {
+              if (temp) {
+                pinp = temp;
+              }
+              if (temp2) {
+                pmult = temp2;
+              }
+            }
+            if (e.target.id === "glass") {
+              currentButton = "glass";
+              document.getElementById("lbinput").value = String(ginp);
+              document.getElementById("lbmult").value = String(gmult);
+              document.getElementById("glass").style.background = "#b4fa8e";
+              if (ginp && gmult) {
+                document.getElementById("endresult").innerHTML = "$" + String((ginp * gmult).toFixed(2));
+              } else {
+                document.getElementById("endresult").innerHTML = "$0";
+              }
+            } else if (e.target.id === "aluminum") {
+              currentButton = "aluminum";
+              document.getElementById("lbinput").value = String(ainp);
+              document.getElementById("lbmult").value = String(amult);
+              document.getElementById("aluminum").style.background = "#b4fa8e";
+              if (ainp && amult) {
+                document.getElementById("endresult").innerHTML = "$" + String((ainp * amult).toFixed(2));
+              } else {
+                document.getElementById("endresult").innerHTML = "$0";
+              }
+            } else {
+              currentButton = "plastic";
+              document.getElementById("lbinput").value = String(pinp);
+              document.getElementById("lbmult").value = String(pmult);
+              document.getElementById("plastic").style.background = "#b4fa8e";
+              if (pinp && pmult) {
+                document.getElementById("endresult").innerHTML = "$" + String((pinp * pmult).toFixed(2));
+              } else {
+                document.getElementById("endresult").innerHTML = "$0";
+              }
+            }
+            if (pinp && pmult) {
+              document.getElementById("plastic").innerHTML = "Plastic ($" + String((pinp * pmult).toFixed(2)) + ")";
+            } else {
+              document.getElementById("plastic").innerHTML = "Plastic ($0)";
+            }
+            if (ainp && amult) {
+              document.getElementById("aluminum").innerHTML = "Aluminum ($" + String((ainp * amult).toFixed(2)) + ")";
+            } else {
+              document.getElementById("aluminum").innerHTML = "Aluminum ($0)";
+            }
+            if (ginp && gmult) {
+              document.getElementById("glass").innerHTML = "Glass ($" + String((ginp * gmult).toFixed(2)) + ")";
+            } else {
+              document.getElementById("glass").innerHTML = "Glass ($0)";
+            }
+          } catch (e) {
+            console.log(e);
+            document.getElementById("endresult").innerHTML = "Error: Prefix couldn't be saved, Resetting Multipliers.";
+            pmult = 0.05;
+            amult = 0.1;
+            gmult = 0.02;
+            currentButton = "plastic";
+            document.getElementById("lbmult").value = String(pmult);
+            document.getElementById("plastic").style.background = "#b4fa8e";
+          }
+        }
+
+        function calculate() {
+          try {
+            document.getElementById("plastic").style.background = "#fbfaf2";
+            document.getElementById("aluminum").style.background = "#fbfaf2";
+            document.getElementById("glass").style.background = "#fbfaf2";
+            let temp = parseFloat(document.getElementById("lbinput").value);
+            let temp2 = parseFloat(document.getElementById("lbmult").value);
+            if (!temp || !temp2) {
+              document.getElementById("endresult").innerHTML = "Error: A number is missing!";
+              return;
+            }
+            document.getElementById("endresult").innerHTML = "$" + String((temp * temp2).toFixed(2));
+            if (currentButton === "glass") {
+              if (temp) {
+                ginp = temp;
+              }
+              if (temp2) {
+                gmult = temp2;
+              }
+              if (ginp && gmult) {
+                document.getElementById("glass").innerHTML = "Glass ($" + String((ginp * gmult).toFixed(2)) + ")";
+              } else {
+                document.getElementById("glass").innerHTML = "Glass ($0)";
+              }
+            } else if (currentButton === "aluminum") {
+              if (temp) {
+                ainp = temp;
+              }
+              if (temp2) {
+                amult = temp2;
+              }
+              if (ainp && amult) {
+                document.getElementById("aluminum").innerHTML = "Aluminum ($" + String((ainp * amult).toFixed(2)) + ")";
+              } else {
+                document.getElementById("aluminum").innerHTML = "Aluminum ($0)";
+              }
+            } else {
+              if (temp) {
+                pinp = temp;
+              }
+              if (temp2) {
+                pmult = temp2;
+              }
+              if (pinp && pmult) {
+                document.getElementById("plastic").innerHTML = "Plastic ($" + String((pinp * pmult).toFixed(2)) + ")";
+              } else {
+                document.getElementById("plastic").innerHTML = "Plastic ($0)";
+              }
+            }
+          } catch (e) {
+            console.log(e);
+            document.getElementById("endresult").innerHTML = "Error: A number was inputted incorrectly!";
+          }
+        }
+
+        function everything() {
+          calculate();
+          document.getElementById("endresult").innerHTML = "P($" + String((pinp * pmult).toFixed(2)) + ") + A($" + String((ainp * amult).toFixed(2))+ ") + G($" + String((ginp * gmult).toFixed(2)) + ") = $" + String(((pinp * pmult) + (ainp * amult) + (ginp * gmult)).toFixed(2));
+        }
+
+        function isNumberKey(evt) {
+          var charCode = (evt.which) ? evt.which : evt.keyCode;
+          if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+          } else {
+            return true;
+          }
+        }
+
+        function loadBody() {
+          currentButton = "plastic";
+          pmult = 0.05;
+          amult = 0.1;
+          gmult = 0.02;
+          document.getElementById("lbinput").value = "";
+          document.getElementById("lbmult").value = String(pmult);
+        }
+      </script>
+    </body>
+    <footer>
+      <h6>Chubby Cattle<br>Shayla Vuong, Jessica Tam, Michael Kahren, Rachel Kim</h6>
+    </footer>
+</html>
